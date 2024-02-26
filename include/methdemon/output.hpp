@@ -15,6 +15,7 @@ public:
     // Write to file
     void writeDemesFile(Tumour& tumour);
     void writeCellsFile(Tumour& tumour);
+    void writeDemesStdout(Tumour& tumour);
     void writeDemesHeader();
 };
 
