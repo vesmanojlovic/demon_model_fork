@@ -16,3 +16,14 @@ void FileOutput::writeDemesFile(Tumour& tumour) {
 void FileOutput::writeCellsFile(Tumour& tumour) {
     return;
 }
+
+void FileOutput::writeDemesStdout(Tumour& tumour) {
+    std::cout<< "Generation,Deme,Side,Population,OriginTime,AverageArray" << std::endl;
+    for (int i = 0; i < tumour.getNumDemes(); i++) {
+        std::cout << tumour.getGensElapsed() << "," << i << "," << tumour.getDeme(i).getSide() << "," << tumour.getDeme(i).getPopulation() << "," << tumour.getDeme(i).getOriginTime() << ",";
+        for (int j = 0; j < tumour.getDeme(i).getAverageArray().size(); j++) {
+            std::cout << tumour.getDeme(i).getAverageArray()[j] << ";";
+        }
+        std::cout << std::endl;
+    }
+}
