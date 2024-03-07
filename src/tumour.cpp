@@ -10,11 +10,11 @@ Tumour::Tumour(const InputParameters& params,
     genotypes.push_back(firstGenotype);
 
     // demes:
-    Deme firstDeme(params.deme_carrying_capacity, "left", 0, 1, 0, params.baseline_death_rate, params.baseline_death_rate, 1, params.init_migration_rate);
+    Deme firstDeme(params.deme_carrying_capacity, "left", 0, 0, 1, 0, params.baseline_death_rate, params.baseline_death_rate, 1, params.init_migration_rate);
     demes.push_back(firstDeme);
     demes.back().initialise(firstGenotype, params, d_params);
 
-    // fission times
+    // fission times - deprecated in paraphyly branch
     fissionTimes.push_back(params.t0);
     fissionTimes.push_back(params.tL1);
     fissionTimes.push_back(params.tL2);
@@ -95,90 +95,20 @@ void Tumour::event(const InputParameters& params) {
 
     if (eventType == "birth") {
         demes[chosenDeme].cellDivision(chosenCell, &nextCellID, &nextGenotypeID, gensElapsed, params);
-        // float rnd = RandomNumberGenerator::getInstance().unitUnifDist();
         if (demes[chosenDeme].getPopulation() >= demes[chosenDeme].getK() &&
             fissionConfig == 1) {
-            // Determine the side of the chosen deme
-            std::string chosenSide = demes[chosenDeme].getSide();
-            // Check if the fission condition is met
-            bool fissionCondition = gensElapsed / static_cast<float>(maxGens) >= (chosenSide == "right" ? *nextFissionR : *nextFissionL);
-            if (fissionCondition) {
-                if (nextFissionL == &fissionTimes[0] && chosenSide == "left") {
-                    nextFissionL = &fissionTimes[1];
-                    nextFissionR = &fissionTimes[4];
-                    demes.push_back(demes[chosenDeme].demeFission(gensElapsed, true));
-                }
-                else if (chosenSide == "right") {
-                    // Check if nextFissionR has reached the end of the array
-                    if (nextFissionR > &fissionTimes.back()) {
-                        demes[chosenDeme].pseudoFission();
-                    }
-                    else {
-                        demes.push_back(demes[chosenDeme].demeFission(gensElapsed));
-                        nextFissionR++;
-                    }
-                }
-                else if (chosenSide == "left") {
-                    // Check if nextFissionL has reached fissionTimes[4]
-                    if (nextFissionL >= &fissionTimes[4]) {
-                        demes[chosenDeme].pseudoFission();
-                    }
-                    else {
-                        demes.push_back(demes[chosenDeme].demeFission(gensElapsed));
-                        nextFissionL++;
-                    }
-                }
-            }
-            else {
-                demes[chosenDeme].pseudoFission();
+            float rnd = RandomNumberGenerator::getInstance().unitUnifDist();
+            if (rnd <= demes[chosenDeme].getSumMigrationRates() && demes.size() < 8) {
+                demes.push_back(demes[chosenDeme].demeFission(gensElapsed));
             }
         }
     }
     else if (eventType == "death") {
         demes[chosenDeme].cellDeath(chosenCell);
     }
-    else if (eventType == "fission") {
+    else if (eventType == "fission" && demes.size() < 8) {
        if (demes[chosenDeme].getPopulation() >= demes[chosenDeme].getK()) {
-            // Determine the side of the chosen deme
-            std::string chosenSide = demes[chosenDeme].getSide();
-            // Check if the fission condition is met
-            bool fissionCondition = gensElapsed / static_cast<float>(maxGens) >= (chosenSide == "right" ? *nextFissionR : *nextFissionL);
-            // std::cout << "gensElapsed: " << gensElapsed << std::endl
-            //     << "maxGens: " << maxGens << std::endl
-            //     << "division: " << gensElapsed / static_cast<float>(maxGens) << std::endl
-            //     << "fissionCondition: " << fissionCondition << std::endl
-            //     << "next fission side: " << chosenSide << std::endl
-            //     << "next fission time: " << (chosenSide == "right" ? *nextFissionR : *nextFissionL) << std::endl;
-            if (fissionCondition) {
-                if (nextFissionL == &fissionTimes[0] && chosenSide == "left") {
-                    nextFissionL = &fissionTimes[1];
-                    nextFissionR = &fissionTimes[4];
-                    demes.push_back(demes[chosenDeme].demeFission(gensElapsed, true));
-                }
-                else if (chosenSide == "right") {
-                    // Check if nextFissionR has reached the end of the array
-                    if (nextFissionR > &fissionTimes.back()) {
-                        demes[chosenDeme].pseudoFission();
-                    }
-                    else {
-                        demes.push_back(demes[chosenDeme].demeFission(gensElapsed));
-                        nextFissionR++;
-                    }
-                }
-                else if (chosenSide == "left") {
-                    // Check if nextFissionL has reached fissionTimes[4]
-                    if (nextFissionL >= &fissionTimes[4]) {
-                        demes[chosenDeme].pseudoFission();
-                    }
-                    else {
-                        demes.push_back(demes[chosenDeme].demeFission(gensElapsed));
-                        nextFissionL++;
-                    }
-                }
-            }
-            else {
-                demes[chosenDeme].pseudoFission();
-            }
+            demes.push_back(demes[chosenDeme].demeFission(gensElapsed));
         }
     }
     else {

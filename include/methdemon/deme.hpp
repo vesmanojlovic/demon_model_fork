@@ -13,6 +13,7 @@ private:
     int K; // carrying capacity of the deme
     std::string side; // Left or right
     int identity; // Identity of the deme (index in tumour)
+    int parent; // Identity of the deme's parent (first deme has parent 0)
     float originTime = 0;
     // Variable properties
     int population; // Number of cancer cells in the deme
@@ -26,7 +27,7 @@ private:
     const float baseDeathRate; // Base death rate of cells in the deme (from input params)
 public:
     // Constructor
-    Deme(int K, std::string side, int identity, int population, int fissions, float deathRate, float baseDeathRate, float sumBirthRates, float sumMigrationRates);
+    Deme(int K, std::string side, int identity, int parent, int population, int fissions, float deathRate, float baseDeathRate, float sumBirthRates, float sumMigrationRates);
     // Initialise first deme
     void initialise(std::shared_ptr<Genotype> firstGenotype, const InputParameters& params, const DerivedParameters& d_params);
     // Deme property handling

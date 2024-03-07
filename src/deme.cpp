@@ -1,7 +1,7 @@
 #include "deme.hpp"
 
 /////// Constructor
-Deme::Deme(int K, std::string side, int identity, int population, int fissions, float deathRate, float baseDeathRate, float sumBirthRates, float sumMigRates) : K(K), side(side), identity(identity), population(population), fissions(fissions), deathRate(deathRate), sumBirthRates(sumBirthRates), sumMigRates(sumMigRates), baseDeathRate(baseDeathRate) {
+Deme::Deme(int K, std::string side, int identity, int parent, int population, int fissions, float deathRate, float baseDeathRate, float sumBirthRates, float sumMigRates) : K(K), side(side), identity(identity), population(population), fissions(fissions), deathRate(deathRate), sumBirthRates(sumBirthRates), sumMigRates(sumMigRates), baseDeathRate(baseDeathRate) {
     avgMethArray.clear();
     cellList.clear();
 }
@@ -53,7 +53,7 @@ void Deme::calculateAverageArray() {
 Deme Deme::demeFission(float originTime, bool firstFission) {
     fissions++;
     // initialise new deme
-    Deme newDeme = Deme(K, side, identity + 1, 0, fissions, 0, baseDeathRate, 0, 0);
+    Deme newDeme = Deme(K, side, identity + 1, identity, 0, fissions, 0, baseDeathRate, 0, 0);
     if (firstFission) newDeme.setSide("right");
     moveCells(newDeme);
     // update origin deme
