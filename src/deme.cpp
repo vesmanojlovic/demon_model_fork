@@ -138,7 +138,7 @@ int Deme::chooseCell() {
 }
 // cell division
 void Deme::cellDivision(int parentIndex, int *nextCellID, int *nextGenotypeID,
-                        float gensElapsed, const InputParameters &params) {
+                        float const gensElapsed, const InputParameters &params) {
   Cell &parent = cellList[parentIndex];
   Cell daughter =
       Cell((*nextCellID)++, parent.getGenotype(), identity, parent.getNumMeth(),

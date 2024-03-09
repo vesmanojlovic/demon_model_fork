@@ -36,6 +36,7 @@ struct InputParameters {
     int max_time;
     int max_generations;
     int max_fissions;
+    float turnover;
 
     // initial conditions
     int init_pop;

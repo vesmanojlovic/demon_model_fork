@@ -35,8 +35,8 @@ void runSim(const std::string& input_and_output_path,
         tumour.setGensElapsed(gensAdded);
         outputTimer += gensAdded;
 
-        // write to stdout and files every 5 generations
-        if(outputTimer >= 5) {
+        // write to stdout and files every 10 generations
+        if(outputTimer >= 10) {
             int numGenotypes = tumour.getNumGenotypes();
             int numDemes = tumour.getNumDemes();
             int numCells = tumour.getNumCells();
@@ -52,7 +52,43 @@ void runSim(const std::string& input_and_output_path,
                       << tumour.getNextGenotypeID()
                       << " genotypes ever created." << std::endl;
             outputTimer = 0;
-            finalDemes.writeDemesFile(tumour);
+            if (params.write_demes_file) finalDemes.writeDemesFile(tumour);
+        }
+    }
+
+    float turnoverTime = tumour.getGensElapsed() * ( 1 + params.turnover );
+    std::cout << "Turnover start time: " << tumour.getGensElapsed()
+        << std::endl;
+    std::cout << "Turnover end time: " << turnoverTime << std::endl;
+    tumour.setTurnoverIndicator();
+    while(tumour.getGensElapsed() < turnoverTime) {
+      tumour.event(params, d_params);
+
+      // update time
+      iterations++;
+      gensAdded = calculateTime(tumour);
+      tumour.setGensElapsed(gensAdded);
+      outputTimer += gensAdded;
+
+      // write to stdout and files every 5 generations
+      if (outputTimer >= 5) {
+        int numGenotypes = tumour.getNumGenotypes();
+        int numDemes = tumour.getNumDemes();
+        int numCells = tumour.getNumCells();
+        std::cout << "Generations elapsed: " << tumour.getGensElapsed()
+                  << ", Iterations: " << iterations
+                  << ", Mean Fissions: " << tumour.getFissionsPerDeme()
+                  << std::endl;
+        std::cout << "Number of cells: " << numCells << std::endl;
+        std::cout << "Number of driver genotypes: " << numGenotypes
+                  << std::endl;
+        std::cout << "Number of demes: " << numDemes << std::endl;
+        std::cout << tumour.getNextCellID() << " cells ever created; "
+                  << tumour.getNextGenotypeID() << " genotypes ever created."
+                  << std::endl;
+        outputTimer = 0;
+        if (params.write_demes_file)
+          finalDemes.writeDemesFile(tumour);
         }
     }
 

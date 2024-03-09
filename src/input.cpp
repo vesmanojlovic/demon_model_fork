@@ -46,6 +46,7 @@ InputParameters readParameters(const boost::property_tree::ptree& pt, const std:
     params.max_time = pt.get<int>("stopping_conditions.max_time");
     params.max_generations = pt.get<int>("stopping_conditions.max_generations");
     params.max_fissions = pt.get<int>("stopping_conditions.max_fissions");
+    params.turnover = pt.get<float>("stopping_conditions.turnover");
 
     params.init_pop = pt.get<int>("initial_conditions.init_pop");
     params.fission_config = pt.get<int>("initial_conditions.fission_config");

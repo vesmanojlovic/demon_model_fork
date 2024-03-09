@@ -22,6 +22,7 @@ private:
     int maxGens = 0;
     // misc
     int fissionConfig = 0;
+    bool turnoverIndicator = false;
 public:
     // Constructor
     Tumour(const InputParameters& params, const DerivedParameters& d_params);
@@ -42,9 +43,11 @@ public:
     int getNumGenotypes() const { return genotypes.size(); }
     float getGensElapsed() const { return gensElapsed; }
     float getOutputTimer() const { return outputTimer; }
+    bool getTurnoverIndicator() const { return turnoverIndicator; }
     Deme& getDeme(int index) { return demes[index]; }
     // Setters
     void setGensElapsed(float gensAdded = 0) { gensElapsed += gensAdded; }
+    void setTurnoverIndicator(bool indi = true) { turnoverIndicator = indi; }
 };
 
 #endif // TUMOUR_HPP

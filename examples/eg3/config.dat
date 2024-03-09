@@ -1,32 +1,32 @@
 capacity
 {
-    deme_carrying_capacity 1000
+    deme_carrying_capacity 20
 }
 dispersal
 {
-    init_migration_rate 0.0001
-    left_demes 4
-    right_demes 4
+    init_migration_rate 0.001
+    left_demes -1
+    right_demes -1
     migration_rate_scales_with_K 1
 }
 mutation
 {
-    mu_driver_birth 0.00001
+    mu_driver_birth 0.0001
     mu_driver_migration 0
 }
 fitness
 {
     normal_birth_rate 0
     baseline_death_rate 0
-    s_driver_birth 0.1
+    s_driver_birth 0
     s_driver_migration 0
     max_relative_birth_rate 10
     max_relative_migration_rate 10
 }
 methylation
 {
-    meth_rate 0.009
-    demeth_rate 0.005
+    meth_rate 0.001
+    demeth_rate 0.0015
     fCpG_loci_per_cell 1200
     manual_array -1
 }
@@ -35,6 +35,7 @@ stopping_conditions
     max_time 86400
     max_generations 10000
     max_fissions 23
+    turnover .3
 }
 initial_conditions
 {
@@ -48,5 +49,5 @@ output_indicators
 }
 rng_seed
 {
-    seed 69420
+    seed 6969
 }

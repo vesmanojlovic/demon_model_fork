@@ -5,13 +5,13 @@ capacity
 dispersal
 {
     init_migration_rate 0.001
-    left_demes 5
-    right_demes 3
+    left_demes -1
+    right_demes -1
     migration_rate_scales_with_K 1
 }
 mutation
 {
-    mu_driver_birth 0
+    mu_driver_birth 0.0001
     mu_driver_migration 0
 }
 fitness
@@ -35,6 +35,7 @@ stopping_conditions
     max_time 86400
     max_generations 10000
     max_fissions 23
+    turnover .3
 }
 initial_conditions
 {
@@ -48,5 +49,5 @@ output_indicators
 }
 rng_seed
 {
-    seed 69420
+    seed 6969
 }
