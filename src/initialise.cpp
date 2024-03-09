@@ -12,6 +12,11 @@ DerivedParameters deriveParameters(const InputParameters& params) {
     d_params.max_driver_genotypes = min(400 * max(max_driver_mu * max_pop, (params.meth_rate + params.demeth_rate) * max_pop), 1e8);
     int predicted_clones_per_deme = max(min(std::ceil(d_params.K * max_driver_mu * 400), d_params.K), 1);
     d_params.max_clones = min(max(d_params.max_genotypes, 8 * predicted_clones_per_deme), max_pop);
-
+    d_params.fission_modifier = static_cast<float>(params.max_fissions) / 2;
+    if (params.left_demes != -1 && params.right_demes != -1) {
+        d_params.max_demes = params.left_demes + params.right_demes;
+    } else {
+        d_params.max_demes = 8;
+    }
     return d_params;
 }

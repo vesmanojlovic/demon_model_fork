@@ -9,6 +9,5 @@
 #include <string>
 
 DerivedParameters deriveParameters(const InputParameters& params);
-// TO DO: files for output - most functions needed
 
 #endif // INITIALISE_HPP
