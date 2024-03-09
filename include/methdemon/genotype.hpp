@@ -4,6 +4,7 @@
 #include "distributions.hpp"
 #include "parameters.hpp"
 #include <iostream>
+#include <memory>
 
 class Genotype {
 private:

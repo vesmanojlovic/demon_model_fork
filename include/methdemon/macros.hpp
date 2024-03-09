@@ -2,6 +2,7 @@
 #define MACROS_HPP
 
 #include <cmath>
+#include <type_traits>
 
 template<typename T1, typename T2>
 inline typename std::common_type<T1, T2>::type min(const T1& x, const T2& y) {
