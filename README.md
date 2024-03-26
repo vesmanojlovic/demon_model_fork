@@ -1,5 +1,5 @@
 # methdemon
-MethDemon (fluctuating **meth**ylation clock **dem**e-based **on**cology model in 1D) is a proprietary framework for simulating fluctuating CpG loci in a cancer population expanding via gland fission, of which only up to 8 glands are tracked and sampled.
+MethDemon (fluctuating **meth**ylation clock **dem**e-based **on**cology model in 1D) is a framework for simulating fluctuating CpG loci in a cancer population expanding via gland fission, of which only up to 8 glands are tracked and sampled.
 
 ## Prerequisites
 
